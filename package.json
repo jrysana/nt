@@ -1,0 +1,22 @@
+{
+  "name": "nt",
+  "version": "1.0.0",
+  "description": "NodeJS Terminal programs.",
+  "scripts": {
+    "cg": "./cg/cg.sh",
+    "fmt": "prettier --write \"./**/*.{js,ts,json}\""
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jwmza/nt.git"
+  },
+  "author": "JWM",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/jwmza/nt/issues"
+  },
+  "homepage": "https://github.com/jwmza/nt#readme",
+  "devDependencies": {
+    "prettier": "^2.5.1"
+  }
+}

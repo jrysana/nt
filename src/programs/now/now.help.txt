@@ -1,0 +1,7 @@
+now.js: Quick time display.
+
+Usage:
+  now
+
+Options:
+  -h, --help
