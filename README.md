@@ -5,7 +5,7 @@
 
 ---
 
-## Installation
+## Install
 
 ### From source:
 
@@ -54,5 +54,7 @@ No other dependencies or node package installs required.
 1. Delete the source code `nt` folder on your machine.
 
 2. _(Optional)_ Remove the aliases from your `~/.bashrc`.
+
+---
 
 Copyright (c) 2022 JWM - See `/LICENSE`
