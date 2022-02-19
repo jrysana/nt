@@ -155,7 +155,7 @@ const _formatNumber = (_number) => {
 
   switch (true) {
     case _mode.hex:
-      return round(_number).toString(16)
+      return '0x' + round(_number).toString(16)
     case _mode.scientific:
       return _formatNumberScientific(_mantissa, _exponent)
     default:

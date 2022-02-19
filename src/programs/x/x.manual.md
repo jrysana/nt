@@ -55,5 +55,5 @@ One hundred million in hexadecimal:
 `$ x 100*M -0x`:
 
 ```hs
-  5f5e100
+  0x5f5e100
 ```
