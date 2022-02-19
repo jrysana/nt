@@ -9,7 +9,7 @@
 
 In `~/.bashrc`:
 
-```bashrc
+```bash
 alias x="node ~/path/to/nt/x.js "
 alias now="node ~/path/to/nt/now.js "
 ```
