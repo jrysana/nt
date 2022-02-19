@@ -158,8 +158,12 @@ const _isNumberArray = (input) => {
   return false
 }
 
+// Format like 3.141592653589793 × 10^6
+
 const _formatNumberScientific = (_mantissa, _exponent) =>
   _mantissa + ' × 10^' + _exponent
+
+// Format like 3,141,592.653,589,793
 
 const _formatNumberDecimal = (_mantissa, _exponent) => {
   const _mantissaDigits = _mantissa.replace(/\./, '')
@@ -195,6 +199,8 @@ const _formatNumberDecimal = (_mantissa, _exponent) => {
 
   return _out
 }
+
+// Format any number
 
 const _formatNumber = (_number) => {
   const [_mantissa, _signedExponent] = _number.toExponential().split('e')
