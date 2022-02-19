@@ -49,3 +49,11 @@ Using common functions:
 ```hs
   6
 ```
+
+One hundred million in hexadecimal:
+
+`$ x 100*M -0x`:
+
+```hs
+  5f5e100
+```

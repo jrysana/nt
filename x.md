@@ -52,6 +52,14 @@ Using common functions:
   6
 ```
 
+One hundred million in hexadecimal:
+
+`$ x 100*M -0x`:
+
+```hs
+  5f5e100
+```
+
 ---
 
 ## Help
@@ -59,7 +67,7 @@ Using common functions:
 x.js: Quick calculator.
 
 Usage:
-  x [args]
+  x [args] [options]
 
 Basic functions:
   log, sqrt, abs, sin, cos, tan, ceil,
@@ -81,5 +89,6 @@ Scaling constants:
 
 Options:
   -s, --scientific
+  -0x, --hexadecimal
   -h, --help
 ```

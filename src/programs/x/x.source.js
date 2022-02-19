@@ -8,6 +8,7 @@ if (!_arg) {
 
 const _mode = {
   scientific: _has(['-s', '--scientific'], process.argv[3]),
+  hex: _has(['-0x', '--hexadecimal'], process.argv[3]),
 }
 
 // Math functions
@@ -153,6 +154,8 @@ const _formatNumber = (_number) => {
   const _exponent = _signedExponent.replace(/\+/, '')
 
   switch (true) {
+    case _mode.hex:
+      return round(_number).toString(16)
     case _mode.scientific:
       return _formatNumberScientific(_mantissa, _exponent)
     default:

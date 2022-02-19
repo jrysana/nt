@@ -1,7 +1,7 @@
 x.js: Quick calculator.
 
 Usage:
-  x [args]
+  x [args] [options]
 
 Basic functions:
   log, sqrt, abs, sin, cos, tan, ceil,
@@ -23,4 +23,5 @@ Scaling constants:
 
 Options:
   -s, --scientific
+  -0x, --hexadecimal
   -h, --help
