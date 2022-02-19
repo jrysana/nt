@@ -11,7 +11,7 @@ for (const program of programs) {
     .trim()
 
   const mainJS = fs
-    .readFileSync(`./src/programs/${program}/${program}.js`)
+    .readFileSync(`./src/programs/${program}/${program}.source.js`)
     .toString()
 
   const build = `// GENERATED CODE. DO NOT EDIT.

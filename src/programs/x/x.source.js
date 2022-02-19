@@ -109,17 +109,54 @@ const _isNumberArray = (input) => {
   return false
 }
 
-const _formatScientific = (num) =>
-  String(num.toExponential())
-    .replace(/[eE]\+/, ' × 10^')
-    .replace(/[eE]\-/, ' × 10^-')
+const _formatNumberScientific = (_mantissa, _exponent) =>
+  _mantissa + ' × 10^' + _exponent
 
-const _formatNumber = (num) => {
+const _formatNumberDecimal = (_mantissa, _exponent) => {
+  const _mantissaDigits = _mantissa.replace(/\./, '')
+
+  const _leadingZeros = max(-1 * _exponent, 0)
+  let _leadingZeroDigits = ''
+
+  for (let j = 0; j < _leadingZeros; j++) {
+    _leadingZeroDigits += '0'
+  }
+
+  const _endingZeros = max(1 + max(_exponent, 0) - _mantissaDigits.length, 0)
+  let _endingZeroDigits = ''
+
+  for (let j = 0; j < _endingZeros; j++) {
+    _endingZeroDigits += '0'
+  }
+
+  const _decimalBefore = max(0, _exponent) + 1
+
+  const _digits = _leadingZeroDigits + _mantissaDigits + _endingZeroDigits
+  let _out = ''
+
+  for (let j = 0; j < _digits.length; j++) {
+    if (j !== 0 && j !== _decimalBefore && (j - _decimalBefore) % 3 === 0) {
+      _out += ','
+    }
+    if (j === _decimalBefore) {
+      _out += '.'
+    }
+    _out += _digits[j]
+  }
+
+  return _out
+}
+
+const _formatNumber = (_number) => {
+  const [_mantissa, _signedExponent] = _number.toExponential().split('e')
+
+  const _exponent = _signedExponent.replace(/\+/, '')
+
   switch (true) {
     case _mode.scientific:
-      return _formatScientific(num)
+      return _formatNumberScientific(_mantissa, _exponent)
     default:
-      return num.toLocaleString('en-uS')
+      return _formatNumberDecimal(_mantissa, _exponent)
   }
 }
 
@@ -130,6 +167,14 @@ try {
   let out
 
   switch (true) {
+    case ev === Infinity:
+      out = '  ∞ (Positive infinity)'
+      break
+
+    case ev === -Infinity:
+      out = '  -∞ (Negative infinity)'
+      break
+
     case _isSingleNumber(ev):
       out = '  ' + _formatNumber(ev)
       break
