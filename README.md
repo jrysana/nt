@@ -30,7 +30,7 @@ No other dependencies or node package installs required.
 Usage:
   x [args] [mode]
 
-Unary functions:
+Basic functions:
   log, sqrt, abs, sin, cos, tan, ceil,
   floor, rand, min, max, round, sign
 

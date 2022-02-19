@@ -105,7 +105,7 @@ const _help = () => {
 Usage:
   x [args]
 
-Unary functions:
+Basic functions:
   log, sqrt, abs, sin, cos, tan, ceil,
   floor, rand, min, max, round, sign
 
