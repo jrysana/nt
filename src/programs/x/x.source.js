@@ -140,7 +140,7 @@ const _formatNumberDecimal = (_mantissa, _exponent) => {
   let _out = ''
 
   for (let j = 0; j < _digits.length; j++) {
-    if (j !== 0 && j !== _decimalBefore && (j - _decimalBefore) % 3 === 0) {
+    if (j !== 0 && j < _decimalBefore && (j - _decimalBefore) % 3 === 0) {
       _out += ','
     }
     if (j === _decimalBefore) {
@@ -155,17 +155,24 @@ const _formatNumberDecimal = (_mantissa, _exponent) => {
 // Format any number
 
 const _formatNumber = (_number) => {
+  let _pre = ''
+
+  if (_number < 0) {
+    _number = -1 * _number
+    _pre = '-'
+  }
+
   const [_mantissa, _signedExponent] = _number.toExponential().split('e')
 
   const _exponent = _signedExponent.replace(/\+/, '')
 
   switch (true) {
     case _mode.hex:
-      return '0x' + round(_number).toString(16)
+      return _pre + '0x' + round(_number).toString(16)
     case _mode.scientific:
-      return _formatNumberScientific(_mantissa, _exponent)
+      return _pre + _formatNumberScientific(_mantissa, _exponent)
     default:
-      return _formatNumberDecimal(_mantissa, _exponent)
+      return _pre + _formatNumberDecimal(_mantissa, _exponent)
   }
 }
 
@@ -179,15 +186,15 @@ const _eval = (_args) => {
 
     switch (true) {
       case ev === Infinity:
-        out = '  ∞ (Positive infinity)'
+        out = ' ≈  ∞ (Positive infinity)'
         break
 
       case ev === -Infinity:
-        out = '  -∞ (Negative infinity)'
+        out = ' ≈  -∞ (Negative infinity)'
         break
 
       case _isSingleNumber(ev):
-        out = '  ' + _formatNumber(ev)
+        out = ' ≈  ' + _formatNumber(ev)
         break
 
       case _isNumberArray(ev):
@@ -217,11 +224,12 @@ if (!_args[2]) {
     output: process.stdout,
   })
 
-  _readline.on('SIGINT', () => {
-    // Quit with ^C
-    _br()
-    _log('  ^C')
-    _readline.close()
+  let _q = false
+
+  _readline.on('close', () => {
+    // Quit
+    !_q && _br()
+    _log('  Goodbye!')
   })
 
   const _repl = () => {
@@ -229,7 +237,7 @@ if (!_args[2]) {
       switch (true) {
         case _has(['-q', '--quit'], ans):
           // Quit with flag
-          _br()
+          _q = true
           _readline.close()
           break
         case _has(['-h', '--help'], ans):

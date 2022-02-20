@@ -2,30 +2,25 @@ x.js: Quick calculator.
 
 Usage:
   x [args] [mode]
-  x         REPL
 
 Basic functions:
   log, sqrt, abs, sin, cos, tan, ceil,
   floor, rand, min, max, round, sign
 
 More functions:
-  sum       Sum of a or a,b,c,...
-  prod      Product of a or a,b,c,...
-  ints      List of integers 0-10, 0-a, or a-b
-  hash      Base-16 hash of a, algo b (default SHA256)
-  hash64    Base-64 hash
+  sum, prod, ints, hash, hash64
 
 Useful constants:
-  pi        3.14159...
-  e         2.71828...
-  c         2.998 × 10^8
+  pi, e, c
 
 Scaling constants:
-  10^x      k, M, G/B, T, P
-  10^-x     m, mu, n, p, f
+  f, p, n, mu, m, k, M, G, B, T, P
 
 Options:
   -s, --scientific
   -0x, --hexadecimal
   -q, --quit
   -h, --help
+
+For more information and help:
+  https://github.com/jwmza/nt/blob/main/x.md

@@ -18,33 +18,28 @@ const _help = () =>
 
 Usage:
   x [args] [mode]
-  x         REPL
 
 Basic functions:
   log, sqrt, abs, sin, cos, tan, ceil,
   floor, rand, min, max, round, sign
 
 More functions:
-  sum       Sum of a or a,b,c,...
-  prod      Product of a or a,b,c,...
-  ints      List of integers 0-10, 0-a, or a-b
-  hash      Base-16 hash of a, algo b (default SHA256)
-  hash64    Base-64 hash
+  sum, prod, ints, hash, hash64
 
 Useful constants:
-  pi        3.14159...
-  e         2.71828...
-  c         2.998 × 10^8
+  pi, e, c
 
 Scaling constants:
-  10^x      k, M, G/B, T, P
-  10^-x     m, mu, n, p, f
+  f, p, n, mu, m, k, M, G, B, T, P
 
 Options:
   -s, --scientific
   -0x, --hexadecimal
   -q, --quit
-  -h, --help`)
+  -h, --help
+
+For more information and help:
+  https://github.com/jwmza/nt/blob/main/x.md`)
 
 if (_has(['-h', '--help'], _args[2])) {
   _help()
@@ -194,7 +189,7 @@ const _formatNumberDecimal = (_mantissa, _exponent) => {
   let _out = ''
 
   for (let j = 0; j < _digits.length; j++) {
-    if (j !== 0 && j !== _decimalBefore && (j - _decimalBefore) % 3 === 0) {
+    if (j !== 0 && j < _decimalBefore && (j - _decimalBefore) % 3 === 0) {
       _out += ','
     }
     if (j === _decimalBefore) {
@@ -209,17 +204,24 @@ const _formatNumberDecimal = (_mantissa, _exponent) => {
 // Format any number
 
 const _formatNumber = (_number) => {
+  let _pre = ''
+
+  if (_number < 0) {
+    _number = -1 * _number
+    _pre = '-'
+  }
+
   const [_mantissa, _signedExponent] = _number.toExponential().split('e')
 
   const _exponent = _signedExponent.replace(/\+/, '')
 
   switch (true) {
     case _mode.hex:
-      return '0x' + round(_number).toString(16)
+      return _pre + '0x' + round(_number).toString(16)
     case _mode.scientific:
-      return _formatNumberScientific(_mantissa, _exponent)
+      return _pre + _formatNumberScientific(_mantissa, _exponent)
     default:
-      return _formatNumberDecimal(_mantissa, _exponent)
+      return _pre + _formatNumberDecimal(_mantissa, _exponent)
   }
 }
 
@@ -233,15 +235,15 @@ const _eval = (_args) => {
 
     switch (true) {
       case ev === Infinity:
-        out = '  ∞ (Positive infinity)'
+        out = ' ≈  ∞ (Positive infinity)'
         break
 
       case ev === -Infinity:
-        out = '  -∞ (Negative infinity)'
+        out = ' ≈  -∞ (Negative infinity)'
         break
 
       case _isSingleNumber(ev):
-        out = '  ' + _formatNumber(ev)
+        out = ' ≈  ' + _formatNumber(ev)
         break
 
       case _isNumberArray(ev):
@@ -271,11 +273,12 @@ if (!_args[2]) {
     output: process.stdout,
   })
 
-  _readline.on('SIGINT', () => {
-    // Quit with ^C
-    _br()
-    _log('  ^C')
-    _readline.close()
+  let _q = false
+
+  _readline.on('close', () => {
+    // Quit
+    !_q && _br()
+    _log('  Goodbye!')
   })
 
   const _repl = () => {
@@ -283,7 +286,7 @@ if (!_args[2]) {
       switch (true) {
         case _has(['-q', '--quit'], ans):
           // Quit with flag
-          _br()
+          _q = true
           _readline.close()
           break
         case _has(['-h', '--help'], ans):
