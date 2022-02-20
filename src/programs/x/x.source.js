@@ -86,6 +86,16 @@ const ints = (a = 10, b = null) => {
     .map((_, j) => j + x)
 }
 
+// Hash
+
+const _hash = (_algo, _value, _digest) =>
+  require('crypto').createHash(_algo).update(_value).digest(_digest)
+
+const hash = (x, _algo = 'sha256') => _hash(_algo, x, 'hex')
+const hash64 = (x, _algo = 'sha256') => _hash(_algo, x, 'base64')
+
+// INTERNAL
+
 const _isSingleNumber = (input) => Number.isFinite(input)
 
 const _isNumberArray = (input) => {
@@ -207,13 +217,20 @@ if (!_args[2]) {
     output: process.stdout,
   })
 
+  _readline.on('SIGINT', () => {
+    // Quit with ^C
+    _br()
+    _log('  ^C')
+    _readline.close()
+  })
+
   const _repl = () => {
     _readline.question('x>    ', (ans) => {
       switch (true) {
         case _has(['-q', '--quit'], ans):
-          // Quit
-          _readline.close()
+          // Quit with flag
           _br()
+          _readline.close()
           break
         case _has(['-h', '--help'], ans):
           _help()
