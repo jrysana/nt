@@ -7,13 +7,11 @@
 
 ## Install
 
-### From source:
-
 0. Install the [dependencies](#dependencies), if you haven't.
 
 1. Download the code. You can `git clone` this repository to stay up to date.
 
-2. Create aliases in `~/.bashrc`, or your equivalent terminal settings:
+2. (**MacOS/Linux/WSL**) Create aliases in `~/.zshrc` or `~/.bashrc`, or your equivalent terminal settings:
 
 ```bash
 # ~/.bashrc
@@ -24,14 +22,16 @@ alias now="node ~/path/to/nt/now.js "
 
 3. Use anywhere!
 
-_Note: you can put `nt`'s source anywhere you want, and call the aliases whatever you want._
-
 ```hs
 $ x pi
 
   3.141,592,653,589,793
 
 ```
+
+_Note: you can put `nt`'s source anywhere you want, and call the aliases whatever you want._
+
+_For use with Windows `cmd.exe` or other terminals (who don't have a `~/.bashrc` equivalent), you'll need to similarly create an alias to run `node [program].js` with arguments._
 
 ---
 

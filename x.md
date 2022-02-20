@@ -2,7 +2,7 @@
 # **x**.js
 ## Quick calculator.
 
-**x** allows you to evaluate quick everyday calculations on the fly.
+`x` allows you to evaluate quick everyday calculations on the fly.
 
 ---
 
@@ -59,6 +59,34 @@ One hundred million in hexadecimal:
 ```hs
   0x5f5e100
 ```
+
+---
+
+## Motivation
+
+There are, of course, many alternatives: native calculator apps, pen&paper, search engine calculator tools, and even other terminal-based calculators and REPLs.
+
+The motivation for `x` however was simple: I have a habit, not always but sometimes, of using the NodeJS REPL for quick calculations.
+
+That process would require more typing, naturally.
+
+1. Type "node" + `Enter`.
+2. Type expression + `Enter` for results.
+3. _(Optional)_ Execute additional expressions.
+4. Type `^C` or equivalent to return to terminal.
+
+I wanted something quicker, since I rarely _need_ step 3, and would prefer less repetitive typing for the rest.
+
+There are additional considerations here like having to use `Math.` prefix or manually creating common functions and pasting in common constants - all a waste of time, frankly.
+
+But I still love the ability of arbitrary code execution for on-the-fly calculations, hence, `x` makes sense.
+
+- Faster to call
+- No exit step
+- Well-formatted results (faster reading & understanding)
+- Pre-defined functions and constants (faster to type)
+- Easy to extend
+- Simple code (verifiable & trustworthy)
 
 ---
 
