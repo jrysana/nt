@@ -74,6 +74,24 @@ x>    hash("Hello")
 
 ---
 
+## REPL
+
+You can enter the REPL by calling `x` with no arguments.
+
+You can quit with `^D` / `^C` or equivalent, or with the `-q` / `--quit` flags.
+
+The REPL is preferable for long inputs as it:
+
+1. Does not require quoting for function calls, whitespace, etc..
+2. Allows typical REPL history navigation, allowing you to modify your expression with ease.
+
+### Coming soon:
+
+- Mode support
+- Variables
+
+---
+
 ## Motivation
 
 There are, of course, many alternatives: native calculator apps, pen&paper, search engine calculator tools, and even other terminal-based calculators and REPLs.
