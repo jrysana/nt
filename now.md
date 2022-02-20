@@ -1,6 +1,5 @@
 <!-- GENERATED FILE. DO NOT EDIT. -->
-# **now**.js
-## Quick time display.
+# **now**.js: Quick time display.
 
 **now** shows a useful time display, including human-readable date, clock, and timezone, with one simple command.
 

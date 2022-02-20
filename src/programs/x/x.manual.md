@@ -1,4 +1,4 @@
-## Quick calculator.
+# **x**.js: Quick calculator.
 
 `x` allows you to evaluate quick everyday calculations on the fly.
 

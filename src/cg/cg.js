@@ -39,7 +39,6 @@ for (const program of programs) {
     .trim()
 
   const manual = `<!-- GENERATED FILE. DO NOT EDIT. -->
-# **${program}**.js
 ${manText}
 
 ---
