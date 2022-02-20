@@ -10,33 +10,35 @@
 
 Estimated calories for humanity per year:
 
-`$ x 7*B*2000*365`:
-
 ```hs
-  5,110,000,000,000,000
+x>    7*B*2000*365
+
+ ≈  5,110,000,000,000,000
+
 ```
 
 Same thing, scientific mode:
 
-`$ x 7*B*2000*365 -s`:
-
 ```hs
-  5.11 × 10^15
+x>    7*B*2000*365 -s
+
+ ≈  5.11 × 10^15
+
 ```
 
 Sum of integers from 1 to 100:
 
-`$ x 'sum(ints(100))'`:
-
 ```hs
-  5,050
+x>    sum(ints(100))
+
+ ≈  5,050
+
 ```
 
 Using common constants:
 
-`$ x '[c, pi, e]' -s`:
-
 ```hs
+x>    [c, pi, e] -s
 [
   2.998 × 10^8,
   3.141592653589793 × 10^0,
@@ -46,18 +48,29 @@ Using common constants:
 
 Using common functions:
 
-`$ x 'log(e**2) - cos(0) + max(5,2)'`:
-
 ```hs
-  6
+x>    log(e**2) - cos(0) + max(5,2)
+
+ ≈  6
+
 ```
 
 One hundred million in hexadecimal:
 
-`$ x 100*M -0x`:
+```hs
+x>    100*M -0x
+
+ ≈  0x5f5e100
+
+```
+
+SHA-256 hash in hexadecimal:
 
 ```hs
-  0x5f5e100
+x>    hash("Hello")
+
+  "185f8db32271fe25f561a6fc938b2e264306ec304eda518007d1764826381969"
+
 ```
 
 ---
