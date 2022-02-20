@@ -50,50 +50,46 @@ const c = 2.998 * 10 ** 8
 
 // Sum of array of numbers or multiple number arguments
 
-const sum = (...nums) => {
-  if (nums.length === 1) {
-    nums = [...nums[0]]
+const sum = (...xs) => {
+  if (Array.isArray(xs[0])) {
+    xs = [...xs[0]]
   }
 
-  let o = 0
+  let y = 0
 
-  for (let j = 0; j < nums.length; j++) {
-    o += nums[j]
+  for (let j = 0; j < xs.length; j++) {
+    y += xs[j]
   }
 
-  return o
+  return y
 }
 
 // Product of array of numbers or multiple number arguments
 
-const prod = (...nums) => {
-  if (nums.length === 1) {
-    nums = [...nums[0]]
+const prod = (...xs) => {
+  if (Array.isArray(xs[0])) {
+    xs = [...xs[0]]
   }
 
-  let o = 1
+  let y = 1
 
-  for (let j = 0; j < nums.length; j++) {
-    o *= nums[j]
+  for (let j = 0; j < xs.length; j++) {
+    y *= xs[j]
   }
 
-  return o
+  return y
 }
 
 // Array of integers 0 to 10, or 0 to a, or a to b
 
 const ints = (a = 10, b = null) => {
-  let start, end
+  let x, y
 
-  if (b !== null) {
-    ;(start = a), (end = b)
-  } else {
-    ;(start = 0), (end = a)
-  }
+  b !== null ? ([x, y] = [a, b]) : ([x, y] = [0, a])
 
-  return Array(end - start + 1)
+  return Array(y - x + 1)
     .fill(0)
-    .map((_, j) => j + start)
+    .map((_, j) => j + x)
 }
 
 const _isSingleNumber = (input) => Number.isFinite(input)

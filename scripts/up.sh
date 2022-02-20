@@ -1,5 +1,7 @@
 #!/bin/bash
 
+echo "Updating from source..."
+
 set -ex
 
 git checkout main
