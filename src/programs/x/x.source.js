@@ -217,7 +217,7 @@ const _eval = (_args) => {
 // Result
 
 if (!_args[2]) {
-  _log('  Welcome to x.js REPL. -h for help. -q to quit.')
+  _log('  Welcome to x.js REPL. -h for help.')
 
   const _readline = require('readline').createInterface({
     input: process.stdin,
