@@ -2,6 +2,6 @@
 
 set -ex
 
-node ./cg/cg.js
+node ./src/cg/cg.js
 
 npm run fmt

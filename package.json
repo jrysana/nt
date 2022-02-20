@@ -3,8 +3,9 @@
   "version": "1.0.0",
   "description": "NodeJS Terminal programs.",
   "scripts": {
-    "cg": "./cg/cg.sh",
-    "fmt": "prettier --write \"./**/*.{js,ts,json}\""
+    "cg": "./scripts/cg.sh",
+    "fmt": "prettier --write \"./**/*.{js,ts,json}\"",
+    "up": "./scripts/up.sh"
   },
   "repository": {
     "type": "git",
