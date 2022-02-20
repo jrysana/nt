@@ -95,7 +95,8 @@ But I still love the ability of arbitrary code execution for on-the-fly calculat
 x.js: Quick calculator.
 
 Usage:
-  x [args] [options]
+  x [args] [mode]
+  x         REPL
 
 Basic functions:
   log, sqrt, abs, sin, cos, tan, ceil,
@@ -118,5 +119,6 @@ Scaling constants:
 Options:
   -s, --scientific
   -0x, --hexadecimal
+  -q, --quit
   -h, --help
 ```

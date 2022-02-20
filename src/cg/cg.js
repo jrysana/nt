@@ -20,7 +20,7 @@ for (const program of programs) {
   
   const _help = () => _log(\`${helpText}\`)
 
-  if (_has(['-h', '--help'], _arg)) {
+  if (_has(['-h', '--help'], _args[2])) {
     _help()
   
     return

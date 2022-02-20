@@ -1,14 +1,8 @@
 // Calculate with Nodejs REPL from command line
 
-if (!_arg) {
-  _error('No argument given.')
-
-  return
-}
-
 const _mode = {
-  scientific: _has(['-s', '--scientific'], process.argv[3]),
-  hex: _has(['-0x', '--hexadecimal'], process.argv[3]),
+  scientific: _has(['-s', '--scientific'], _args[3]),
+  hex: _has(['-0x', '--hexadecimal'], _args[3]),
 }
 
 // Math functions
@@ -165,37 +159,75 @@ const _formatNumber = (_number) => {
   }
 }
 
+const _eval = (_args) => {
+  // return _log(_args)
+
+  try {
+    const ev = eval(_args)
+
+    let out
+
+    switch (true) {
+      case ev === Infinity:
+        out = '  ∞ (Positive infinity)'
+        break
+
+      case ev === -Infinity:
+        out = '  -∞ (Negative infinity)'
+        break
+
+      case _isSingleNumber(ev):
+        out = '  ' + _formatNumber(ev)
+        break
+
+      case _isNumberArray(ev):
+        out = ev.map((x) => _formatNumber(x))
+        out = JSON.stringify(out, null, 2).replace(/\"/g, '')
+        break
+
+      default:
+        out = JSON.stringify(ev, null, 2)
+    }
+
+    _log(out)
+  } catch (err) {
+    _error(`Evaluation failed.
+      
+  ${err}.`)
+  }
+}
+
 // Result
-try {
-  const ev = eval(_arg)
 
-  let out
+if (!_args[2]) {
+  _log('  Welcome to x.js REPL. -h for help. -q to quit.')
 
-  switch (true) {
-    case ev === Infinity:
-      out = '  ∞ (Positive infinity)'
-      break
+  const _readline = require('readline').createInterface({
+    input: process.stdin,
+    output: process.stdout,
+  })
 
-    case ev === -Infinity:
-      out = '  -∞ (Negative infinity)'
-      break
-
-    case _isSingleNumber(ev):
-      out = '  ' + _formatNumber(ev)
-      break
-
-    case _isNumberArray(ev):
-      out = ev.map((x) => _formatNumber(x))
-      out = JSON.stringify(out, null, 2).replace(/\"/g, '')
-      break
-
-    default:
-      out = JSON.stringify(ev, null, 2)
+  const _repl = () => {
+    _readline.question('x>    ', (ans) => {
+      switch (true) {
+        case _has(['-q', '--quit'], ans):
+          // Quit
+          _readline.close()
+          _br()
+          break
+        case _has(['-h', '--help'], ans):
+          _help()
+          _repl()
+          break
+        default:
+          // REPL
+          _eval(ans)
+          _repl()
+      }
+    })
   }
 
-  _log(out)
-} catch (err) {
-  _error(`Evaluation failed.
-		
-  ${err}.`)
+  _repl()
+} else {
+  _eval(_args[2])
 }
