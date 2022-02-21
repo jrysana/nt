@@ -285,9 +285,11 @@ const _eval = (_args) => {
             _error('No user variables.')
             _skipLogging = true
           } else {
-            out = Object.entries($)
-              .map(([k, v]) => `${k}: ${v}`)
-              .join('\n  ')
+            out =
+              '  ' +
+              Object.entries($)
+                .map(([k, v]) => `${k}: ${v}`)
+                .join('\n  ')
           }
           break
 
