@@ -57,7 +57,7 @@ x>    log(e**2) - cos(0) + max(5,2)
 One hundred million in hexadecimal:
 
 ```hs
-x>    100*M -0x
+x>    100*M -x
 
  ≈  0x5f5e100
 
@@ -125,28 +125,24 @@ But I still love the ability of arbitrary code execution for on-the-fly calculat
 x.js: Quick calculator.
 
 Usage:
-  x [args] [mode]
+  x [args] [options]
 
-Basic functions:
+Functions:
   log, sqrt, abs, sin, cos, tan, ceil,
-  floor, rand, min, max, round, sign
-
-More functions:
+  floor, rand, min, max, round, sign,
   sum, prod, ints, hash, hash64
 
 Useful constants:
-  pi, e, c
+  π, pi, e, c, φ, phi
 
 Scaling constants:
-  f, p, n, mu, m, k, M, G, B, T, P
+  f, p, n, μ, mu, m, k, M, G, B, T, P
 
 Options:
-  -s, --scientific
-  -x, --hexadecimal
-  -d, --decimal
-  -q, --quit
+  -s, --scientific,  -x, --hexadecimal,
+  -d, --decimal,     -q, --quit,
   -h, --help
 
 For more information and help:
-  https://github.com/jwmza/nt/blob/main/x.md
+  github.com/jwmza/nt/blob/main/x.md
 ```

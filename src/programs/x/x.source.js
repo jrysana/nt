@@ -60,7 +60,6 @@ const {
   tan,
   ceil,
   floor,
-  random: rand,
   min,
   max,
   round,
@@ -85,6 +84,20 @@ const p = 10 ** -12
 const f = 10 ** -15
 
 const c = 2.998 * 10 ** 8
+
+const phi = (1 + sqrt(5)) / 2
+
+const φ = phi
+const π = pi
+const μ = mu
+
+// Random number 0-1 or 0-a or a-b
+
+const rand = (a = 1, b = null) => {
+  const [x, y] = b !== null ? [a, b] : [0, a]
+
+  return Math.random() * (y - x) + x
+}
 
 // Sum of array of numbers or multiple number arguments
 
@@ -121,9 +134,7 @@ const prod = (...xs) => {
 // Array of integers 0 to 10, or 0 to a, or a to b
 
 const ints = (a = 10, b = null) => {
-  let x, y
-
-  b !== null ? ([x, y] = [a, b]) : ([x, y] = [0, a])
+  const [x, y] = b !== null ? [a, b] : [0, a]
 
   return Array(y - x + 1)
     .fill(0)
@@ -263,8 +274,18 @@ const _eval = (_args) => {
           out = ' ≈  -∞ (Negative infinity)'
           break
 
+        case Number.isNaN(ev):
+          _error('Undefined value / NaN.')
+          _skipLogging = true
+          break
+
         case ev === undefined:
-          _error('Undefined.')
+          _error('Undefined value.')
+          _skipLogging = true
+          break
+
+        case ev === null:
+          _error('Null value.')
           _skipLogging = true
           break
 

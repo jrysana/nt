@@ -56,7 +56,7 @@ x>    log(e**2) - cos(0) + max(5,2)
 One hundred million in hexadecimal:
 
 ```hs
-x>    100*M -0x
+x>    100*M -x
 
  ≈  0x5f5e100
 
