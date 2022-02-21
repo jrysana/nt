@@ -157,6 +157,10 @@ const φ = phi
 const π = pi
 const μ = mu
 
+// User variables
+
+const $ = {}
+
 // Random number 0-1 or 0-a or a-b
 
 const rand = (a = 1, b = null) => {
@@ -332,6 +336,16 @@ const _eval = (_args) => {
       let out
 
       switch (true) {
+        case ev === $:
+          out =
+            '  ' +
+            (Object.entries($).length === 0
+              ? 'No user variables.'
+              : Object.entries($)
+                  .map(([k, v]) => `${k}: ${v}`)
+                  .join('\n  '))
+          break
+
         case ev === Infinity:
           out = ' ≈  ∞ (Positive infinity)'
           break
@@ -371,7 +385,7 @@ const _eval = (_args) => {
       !_skipLogging && _log(out)
     } catch (err) {
       _error(`Evaluation failed.
-  ${err}.`)
+  ${err}${err[err.length - 1] === '.' ? '' : '.'}`)
     }
   }
 }
