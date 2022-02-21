@@ -142,7 +142,8 @@ Scaling constants:
 
 Options:
   -s, --scientific
-  -0x, --hexadecimal
+  -x, --hexadecimal
+  -d, --decimal
   -q, --quit
   -h, --help
 

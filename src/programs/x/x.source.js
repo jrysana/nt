@@ -1,9 +1,53 @@
 // Calculate with Nodejs REPL from command line
 
-const _mode = {
-  scientific: _has(['-s', '--scientific'], _args[3]),
-  hex: _has(['-0x', '--hexadecimal'], _args[3]),
-}
+let _mode = 'x10'
+let _precision = null
+let _quitREPL = () => {}
+
+_options = [
+  ..._options,
+  {
+    op: 'DecimalMode',
+    flags: ['-d', '--decimal'],
+    handle: () => {
+      _mode = 'x10'
+      return false
+    },
+  },
+  {
+    op: 'ScientificMode',
+    flags: ['-s', '--scientific'],
+    handle: () => {
+      _mode = '10^'
+      return false
+    },
+  },
+  {
+    op: 'Base16Mode',
+    flags: ['-x', '--hexadecimal'],
+    handle: () => {
+      _mode = 'x16'
+      return false
+    },
+  },
+  {
+    op: 'Quit',
+    flags: ['-q', '--quit'],
+    handle: () => {
+      _quitREPL()
+      return true
+    },
+  },
+  {
+    op: 'FixedPrecision',
+    flags: ['-p', '--precision'],
+    args: 1,
+    handle: (precision) => {
+      _precision = precision
+      return false
+    },
+  },
+]
 
 // Math functions
 
@@ -167,9 +211,9 @@ const _formatNumber = (_number) => {
   const _exponent = _signedExponent.replace(/\+/, '')
 
   switch (true) {
-    case _mode.hex:
+    case _mode === 'x16':
       return _pre + '0x' + round(_number).toString(16)
-    case _mode.scientific:
+    case _mode === '10^':
       return _pre + _formatNumberScientific(_mantissa, _exponent)
     default:
       return _pre + _formatNumberDecimal(_mantissa, _exponent)
@@ -177,40 +221,71 @@ const _formatNumber = (_number) => {
 }
 
 const _eval = (_args) => {
-  // return _log(_args)
+  let _expr = []
 
-  try {
-    const ev = eval(_args)
+  let _skipEvaluation = false
+  let _skipLogging = false
 
-    let out
+  for (let j = 0; j < _args.length; j++) {
+    const _option = _getOption(_args[j])
+    if (_option !== null) {
+      if (_option.args) {
+        let _optionArgs = []
 
-    switch (true) {
-      case ev === Infinity:
-        out = ' ≈  ∞ (Positive infinity)'
-        break
+        for (let jj = 0; jj < _option.args; jj++) {
+          j++
+          _optionArgs.push(_args[j])
+        }
 
-      case ev === -Infinity:
-        out = ' ≈  -∞ (Negative infinity)'
-        break
-
-      case _isSingleNumber(ev):
-        out = ' ≈  ' + _formatNumber(ev)
-        break
-
-      case _isNumberArray(ev):
-        out = ev.map((x) => _formatNumber(x))
-        out = JSON.stringify(out, null, 2).replace(/\"/g, '')
-        break
-
-      default:
-        out = JSON.stringify(ev, null, 2)
+        _skipEvaluation = _option.handle(..._optionArgs)
+      } else {
+        _skipEvaluation = _option.handle()
+      }
+    } else {
+      _expr.push(_args[j])
     }
+  }
 
-    _log(out)
-  } catch (err) {
-    _error(`Evaluation failed.
-      
+  if (!_skipEvaluation) {
+    _expr = _expr.join(' ')
+
+    try {
+      const ev = eval(_expr)
+
+      let out
+
+      switch (true) {
+        case ev === Infinity:
+          out = ' ≈  ∞ (Positive infinity)'
+          break
+
+        case ev === -Infinity:
+          out = ' ≈  -∞ (Negative infinity)'
+          break
+
+        case ev === undefined:
+          _error('Undefined.')
+          _skipLogging = true
+          break
+
+        case _isSingleNumber(ev):
+          out = ' ≈  ' + _formatNumber(ev)
+          break
+
+        case _isNumberArray(ev):
+          out = ev.map((x) => _formatNumber(x))
+          out = JSON.stringify(out, null, 2).replace(/\"/g, '')
+          break
+
+        default:
+          out = JSON.stringify(ev, null, 2)
+      }
+
+      !_skipLogging && _log(out)
+    } catch (err) {
+      _error(`Evaluation failed.
   ${err}.`)
+    }
   }
 }
 
@@ -232,27 +307,20 @@ if (!_args[2]) {
     _log('  Goodbye!')
   })
 
+  _quitREPL = () => {
+    _q = true
+    _readline.close()
+  }
+
   const _repl = () => {
-    _readline.question('x>    ', (ans) => {
-      switch (true) {
-        case _has(['-q', '--quit'], ans):
-          // Quit with flag
-          _q = true
-          _readline.close()
-          break
-        case _has(['-h', '--help'], ans):
-          _help()
-          _repl()
-          break
-        default:
-          // REPL
-          _eval(ans)
-          _repl()
-      }
+    _readline.question(_mode + '>  ', (ans) => {
+      // REPL
+      _eval(ans.trim().split(/\s+/))
+      !_q && _repl()
     })
   }
 
   _repl()
 } else {
-  _eval(_args[2])
+  _eval(_args.slice(2))
 }

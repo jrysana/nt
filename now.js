@@ -13,6 +13,26 @@ const _args = process.argv
 
 const _has = (array, test) => array.indexOf(test) >= 0
 
+let _options = [
+  {
+    option: 'Help',
+    flags: ['-h', '--help'],
+    handle: () => {
+      _help()
+      return true
+    },
+  },
+]
+
+const _getOption = (_maybeFlag) => {
+  for (const _option of _options) {
+    if (_has(_option.flags, _maybeFlag)) {
+      return _option
+    }
+  }
+  return null
+}
+
 const _help = () =>
   _log(`now.js: Quick time display.
 
