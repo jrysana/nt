@@ -7,9 +7,17 @@ let t = ts[0].replace(/\:/g, ' : ')
 let z = ts.slice(1).join(' ')
 
 _log(
-  ` Date |    ${date.toDateString()}
-------|  
- Time |    ${t}
-------|  
- Zone |    ${z}`,
+  _text.dim(` Date |`) +
+    `    ${date.toDateString()}` +
+    '\n' +
+    _text.dim(`——————|`) +
+    '\n' +
+    _text.dim(` Time |`) +
+    `    ${t}` +
+    '\n' +
+    _text.dim(`——————|`) +
+    '\n' +
+    _text.dim(` Zone |`) +
+    `    ${z}` +
+    '\n',
 )
