@@ -10,14 +10,26 @@ const _text = {
   yellow: (s) => '\x1b[38;5;156m' + s + '\x1b[0m',
   cyan: (s) => '\x1b[38;5;158m' + s + '\x1b[0m',
   orange: (s) => '\x1b[38;5;215m' + s + '\x1b[0m',
-  dim: (s) => '\x1b[2m' + s + '\x1b[0m',
-  underscore: (s) => '\x1b[4m' + s + '\x1b[0m',
+  bold: (s) => '\x1b[1m' + s + '\x1b[22m',
+  dim: (s) => '\x1b[2m' + s + '\x1b[22m',
+  italic: (s) => '\x1b[3m' + s + '\x1b[23m',
+  underscore: (s) => '\x1b[4m' + s + '\x1b[24m',
 }
 
 const _br = () => console.log('')
 
 const _error = (reason) =>
-  _log('  ' + _text.red(_text.underscore('Error')) + _text.red(': ' + reason))
+  _log('  ' + _text.red(_text.underscore('Error') + ': ' + reason))
+
+const _help = () =>
+  _log(
+    _helpText.replace(/\n\S.+\:\n/g, (x) =>
+      x.replace(
+        /\S.+\:/g,
+        (y) => _text.underscore(_text.italic(y.trim())) + '\n',
+      ),
+    ),
+  )
 
 const _args = process.argv
 
@@ -43,8 +55,7 @@ const _getOption = (_maybeFlag) => {
   return null
 }
 
-const _help = () =>
-  _log(`x.js: Quick calculator.
+const _helpText = `x.js: Quick calculator.
 
 Usage:
   x [args] [options]
@@ -67,7 +78,7 @@ Options:
   -h, --help
 
 For more information and help:
-  github.com/jwmza/nt/blob/main/x.md`)
+  github.com/jwmza/nt/blob/main/x.md`
 
 if (_has(['-h', '--help'], _args[2])) {
   _help()
@@ -259,7 +270,7 @@ const _isString = (input) => typeof input === 'string'
 // Format like 3.141592653589793 × 10^6
 
 const _formatNumberScientific = (_mantissa, _exponent) =>
-  _mantissa + _text.dim(' × 10^') + _text.yellow(_exponent)
+  _mantissa + _text.dim(' × 10^') + _exponent
 
 // Format like 3,141,592.653,589,793
 
@@ -298,6 +309,8 @@ const _formatNumberDecimal = (_mantissa, _exponent) => {
   return _out
 }
 
+const _approx = _text.dim(' ≈  ')
+
 // Format any number
 
 const _formatNumber = (_number) => {
@@ -314,7 +327,7 @@ const _formatNumber = (_number) => {
 
   switch (true) {
     case _mode === 'x':
-      return _pre + '0x' + round(_number).toString(16)
+      return _pre + _text.dim('0x') + round(_number).toString(16)
     case _mode === 's':
       return _pre + _formatNumberScientific(_mantissa, _exponent)
     default:
@@ -386,18 +399,15 @@ const _eval = (_args) => {
           break
 
         case ev === Infinity:
-          out =
-            _text.cyan(_text.dim(' ≈  ')) + _text.cyan('∞ (Positive infinity)')
+          out = _text.cyan(_approx + '∞ (Positive infinity)')
           break
 
         case ev === -Infinity:
-          out =
-            _text.cyan(_text.dim(' ≈  ')) + _text.cyan('-∞ (Negative infinity)')
+          out = _text.cyan(_approx + '-∞ (Negative infinity)')
           break
 
         case _isSingleNumber(ev):
-          out =
-            _text.yellow(_text.dim(' ≈  ')) + _text.yellow(_formatNumber(ev))
+          out = _text.yellow(_approx + _formatNumber(ev))
           break
 
         case _isNumberArray(ev):
@@ -406,10 +416,7 @@ const _eval = (_args) => {
           break
 
         case _isString(ev):
-          out =
-            _text.dim(_text.orange('   `')) +
-            _text.orange(ev) +
-            _text.dim(_text.orange('`'))
+          out = _text.orange(_text.dim('   `') + ev + _text.dim('`'))
           break
 
         default:

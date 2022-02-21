@@ -18,7 +18,7 @@ for (const program of programs) {
   
   ${sharedJS}
   
-  const _help = () => _log(\`${helpText}\`)
+  const _helpText = \`${helpText}\`
 
   if (_has(['-h', '--help'], _args[2])) {
     _help()

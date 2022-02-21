@@ -182,7 +182,7 @@ const _isString = (input) => typeof input === 'string'
 // Format like 3.141592653589793 × 10^6
 
 const _formatNumberScientific = (_mantissa, _exponent) =>
-  _mantissa + _text.dim(' × 10^') + _text.yellow(_exponent)
+  _mantissa + _text.dim(' × 10^') + _exponent
 
 // Format like 3,141,592.653,589,793
 
@@ -221,6 +221,8 @@ const _formatNumberDecimal = (_mantissa, _exponent) => {
   return _out
 }
 
+const _approx = _text.dim(' ≈  ')
+
 // Format any number
 
 const _formatNumber = (_number) => {
@@ -237,7 +239,7 @@ const _formatNumber = (_number) => {
 
   switch (true) {
     case _mode === 'x':
-      return _pre + '0x' + round(_number).toString(16)
+      return _pre + _text.dim('0x') + round(_number).toString(16)
     case _mode === 's':
       return _pre + _formatNumberScientific(_mantissa, _exponent)
     default:
@@ -309,18 +311,15 @@ const _eval = (_args) => {
           break
 
         case ev === Infinity:
-          out =
-            _text.cyan(_text.dim(' ≈  ')) + _text.cyan('∞ (Positive infinity)')
+          out = _text.cyan(_approx + '∞ (Positive infinity)')
           break
 
         case ev === -Infinity:
-          out =
-            _text.cyan(_text.dim(' ≈  ')) + _text.cyan('-∞ (Negative infinity)')
+          out = _text.cyan(_approx + '-∞ (Negative infinity)')
           break
 
         case _isSingleNumber(ev):
-          out =
-            _text.yellow(_text.dim(' ≈  ')) + _text.yellow(_formatNumber(ev))
+          out = _text.yellow(_approx + _formatNumber(ev))
           break
 
         case _isNumberArray(ev):
@@ -329,10 +328,7 @@ const _eval = (_args) => {
           break
 
         case _isString(ev):
-          out =
-            _text.dim(_text.orange('   `')) +
-            _text.orange(ev) +
-            _text.dim(_text.orange('`'))
+          out = _text.orange(_text.dim('   `') + ev + _text.dim('`'))
           break
 
         default:
