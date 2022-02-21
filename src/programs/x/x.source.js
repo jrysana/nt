@@ -95,6 +95,14 @@ const μ = mu
 
 const $ = {}
 
+// Dates
+
+const date = (_date = null) => (_date === null ? new Date() : new Date(_date))
+
+const days = (_ms) => _ms / 86400000
+
+const years = (_ms) => _ms / 31557600000
+
 // Random number 0-1 or 0-a or a-b
 
 const rand = (a = 1, b = null) => {
@@ -313,7 +321,7 @@ const _eval = (_args) => {
           break
 
         default:
-          out = JSON.stringify(ev, null, 2)
+          out = JSON.stringify(ev, null, 2) || ev.toString()
       }
 
       !_skipLogging && _log(out)

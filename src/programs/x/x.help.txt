@@ -4,9 +4,10 @@ Usage:
   x [args] [options]
 
 Functions:
-  log, sqrt, abs, sin, cos, tan, ceil,
-  floor, rand, min, max, round, sign,
-  sum, prod, ints, hash, hash64
+  abs, ceil, cos, date, days, floor,
+  hash, hash64, ints, log, max, min,
+  prod, rand, round, sign, sin, sqrt,
+  sum, tan, years
 
 Useful constants:
   π, pi, e, c, φ, phi

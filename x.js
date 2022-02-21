@@ -40,9 +40,10 @@ Usage:
   x [args] [options]
 
 Functions:
-  log, sqrt, abs, sin, cos, tan, ceil,
-  floor, rand, min, max, round, sign,
-  sum, prod, ints, hash, hash64
+  abs, ceil, cos, date, days, floor,
+  hash, hash64, ints, log, max, min,
+  prod, rand, round, sign, sin, sqrt,
+  sum, tan, years
 
 Useful constants:
   π, pi, e, c, φ, phi
@@ -160,6 +161,14 @@ const μ = mu
 // User variables
 
 const $ = {}
+
+// Dates
+
+const date = (_date = null) => (_date === null ? new Date() : new Date(_date))
+
+const days = (_ms) => _ms / 86400000
+
+const years = (_ms) => _ms / 31557600000
 
 // Random number 0-1 or 0-a or a-b
 
@@ -379,7 +388,7 @@ const _eval = (_args) => {
           break
 
         default:
-          out = JSON.stringify(ev, null, 2)
+          out = JSON.stringify(ev, null, 2) || ev.toString()
       }
 
       !_skipLogging && _log(out)
