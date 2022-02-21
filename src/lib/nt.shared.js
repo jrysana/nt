@@ -3,9 +3,18 @@ const _log = (message) =>
 ${message}
 	`)
 
+const _text = {
+  red: (s) => '\x1b[31m' + s + '\x1b[0m',
+  yellow: (s) => '\x1b[38;5;228m' + s + '\x1b[0m',
+  cyan: (s) => '\x1b[36m' + s + '\x1b[0m',
+  dim: (s) => '\x1b[2m' + s + '\x1b[0m',
+  underscore: (s) => '\x1b[4m' + s + '\x1b[0m',
+}
+
 const _br = () => console.log('')
 
-const _error = (reason) => _log('  Error: ' + reason)
+const _error = (reason) =>
+  _log('  ' + _text.red(_text.underscore('Error')) + _text.red(': ' + reason))
 
 const _args = process.argv
 

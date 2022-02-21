@@ -180,7 +180,7 @@ const _isNumberArray = (input) => {
 // Format like 3.141592653589793 × 10^6
 
 const _formatNumberScientific = (_mantissa, _exponent) =>
-  _mantissa + ' × 10^' + _exponent
+  _mantissa + _text.dim(' × 10^') + _text.yellow(_exponent)
 
 // Format like 3,141,592.653,589,793
 
@@ -279,21 +279,14 @@ const _eval = (_args) => {
 
       switch (true) {
         case ev === $:
-          out =
-            '  ' +
-            (Object.entries($).length === 0
-              ? 'No user variables.'
-              : Object.entries($)
-                  .map(([k, v]) => `${k}: ${v}`)
-                  .join('\n  '))
-          break
-
-        case ev === Infinity:
-          out = ' ≈  ∞ (Positive infinity)'
-          break
-
-        case ev === -Infinity:
-          out = ' ≈  -∞ (Negative infinity)'
+          if (Object.entries($).length === 0) {
+            _error('No user variables.')
+            _skipLogging = true
+          } else {
+            out = Object.entries($)
+              .map(([k, v]) => `${k}: ${v}`)
+              .join('\n  ')
+          }
           break
 
         case Number.isNaN(ev):
@@ -311,8 +304,19 @@ const _eval = (_args) => {
           _skipLogging = true
           break
 
+        case ev === Infinity:
+          out =
+            _text.cyan(_text.dim(' ≈  ')) + _text.cyan('∞ (Positive infinity)')
+          break
+
+        case ev === -Infinity:
+          out =
+            _text.cyan(_text.dim(' ≈  ')) + _text.cyan('-∞ (Negative infinity)')
+          break
+
         case _isSingleNumber(ev):
-          out = ' ≈  ' + _formatNumber(ev)
+          out =
+            _text.yellow(_text.dim(' ≈  ')) + _text.yellow(_formatNumber(ev))
           break
 
         case _isNumberArray(ev):
@@ -335,7 +339,7 @@ const _eval = (_args) => {
 // Result
 
 if (!_args[2]) {
-  _log('  Welcome to x.js REPL. -h for help.')
+  _log('  Welcome to x.js REPL.' + _text.dim(' -h for help.'))
 
   const _readline = require('readline').createInterface({
     input: process.stdin,
@@ -356,7 +360,7 @@ if (!_args[2]) {
   }
 
   const _repl = () => {
-    _readline.question(_mode + '>  ', (ans) => {
+    _readline.question(_text.dim(_mode + '>  '), (ans) => {
       // REPL
       _eval(ans.trim().split(/\s+/))
       !_q && _repl()
