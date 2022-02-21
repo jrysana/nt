@@ -6,9 +6,10 @@ ${message}
 	`)
 
 const _text = {
-  red: (s) => '\x1b[31m' + s + '\x1b[0m',
-  yellow: (s) => '\x1b[38;5;228m' + s + '\x1b[0m',
-  cyan: (s) => '\x1b[36m' + s + '\x1b[0m',
+  red: (s) => '\x1b[38;5;196m' + s + '\x1b[0m',
+  yellow: (s) => '\x1b[38;5;156m' + s + '\x1b[0m',
+  cyan: (s) => '\x1b[38;5;158m' + s + '\x1b[0m',
+  orange: (s) => '\x1b[38;5;215m' + s + '\x1b[0m',
   dim: (s) => '\x1b[2m' + s + '\x1b[0m',
   underscore: (s) => '\x1b[4m' + s + '\x1b[0m',
 }

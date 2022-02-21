@@ -6,9 +6,10 @@ ${message}
 	`)
 
 const _text = {
-  red: (s) => '\x1b[31m' + s + '\x1b[0m',
-  yellow: (s) => '\x1b[38;5;228m' + s + '\x1b[0m',
-  cyan: (s) => '\x1b[36m' + s + '\x1b[0m',
+  red: (s) => '\x1b[38;5;196m' + s + '\x1b[0m',
+  yellow: (s) => '\x1b[38;5;156m' + s + '\x1b[0m',
+  cyan: (s) => '\x1b[38;5;158m' + s + '\x1b[0m',
+  orange: (s) => '\x1b[38;5;215m' + s + '\x1b[0m',
   dim: (s) => '\x1b[2m' + s + '\x1b[0m',
   underscore: (s) => '\x1b[4m' + s + '\x1b[0m',
 }
@@ -76,7 +77,7 @@ if (_has(['-h', '--help'], _args[2])) {
 
 // Calculate with Nodejs REPL from command line
 
-let _mode = 'x10'
+let _mode = 'd'
 let _precision = null
 let _quitREPL = () => {}
 
@@ -86,7 +87,7 @@ _options = [
     op: 'DecimalMode',
     flags: ['-d', '--decimal'],
     handle: () => {
-      _mode = 'x10'
+      _mode = 'd'
       return false
     },
   },
@@ -94,7 +95,7 @@ _options = [
     op: 'ScientificMode',
     flags: ['-s', '--scientific'],
     handle: () => {
-      _mode = '10^'
+      _mode = 's'
       return false
     },
   },
@@ -102,7 +103,7 @@ _options = [
     op: 'Base16Mode',
     flags: ['-x', '--hexadecimal'],
     handle: () => {
-      _mode = 'x16'
+      _mode = 'x'
       return false
     },
   },
@@ -253,6 +254,8 @@ const _isNumberArray = (input) => {
   return false
 }
 
+const _isString = (input) => typeof input === 'string'
+
 // Format like 3.141592653589793 × 10^6
 
 const _formatNumberScientific = (_mantissa, _exponent) =>
@@ -310,9 +313,9 @@ const _formatNumber = (_number) => {
   const _exponent = _signedExponent.replace(/\+/, '')
 
   switch (true) {
-    case _mode === 'x16':
+    case _mode === 'x':
       return _pre + '0x' + round(_number).toString(16)
-    case _mode === '10^':
+    case _mode === 's':
       return _pre + _formatNumberScientific(_mantissa, _exponent)
     default:
       return _pre + _formatNumberDecimal(_mantissa, _exponent)
@@ -400,6 +403,13 @@ const _eval = (_args) => {
           out = JSON.stringify(out, null, 2).replace(/\"/g, '')
           break
 
+        case _isString(ev):
+          out =
+            _text.dim(_text.orange('   `')) +
+            _text.orange(ev) +
+            _text.dim(_text.orange('`'))
+          break
+
         default:
           out = JSON.stringify(ev, null, 2) || ev.toString()
       }
@@ -436,7 +446,7 @@ if (!_args[2]) {
   }
 
   const _repl = () => {
-    _readline.question(_text.dim(_mode + '>  '), (ans) => {
+    _readline.question(_text.dim(_mode + '>    '), (ans) => {
       // REPL
       _eval(ans.trim().split(/\s+/))
       !_q && _repl()
