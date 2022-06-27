@@ -367,7 +367,7 @@ if (!_args[2]) {
   }
 
   const _repl = () => {
-    _readline.question(_text.dim(_mode + '>    '), (ans) => {
+    _readline.question(_text.dim('nt/x.js (' + _mode + ') ⠕ '), (ans) => {
       // REPL
       _eval(ans.trim().split(/\s+/))
       !_q && _repl()
